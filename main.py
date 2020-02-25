@@ -20,14 +20,13 @@ while True:
         username, password = rand_account()
         log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
         server = SMTP_SSL(smtp_host)
-        server.set_debuglevel(1)
+        # server.set_debuglevel(1)
         server.ehlo(smtp_host)
         server.login(username, password)
         break
     except SMTPAuthenticationError:
         log.warning(f'ACCOUNT FAILED {username}{password}')
         continue
-
 for line in file:
     receivers.append(line.strip())
     if temp % 980 == 0:
@@ -37,7 +36,7 @@ for line in file:
                 username, password = rand_account()
                 log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
                 server = SMTP_SSL(smtp_host)
-                server.set_debuglevel(1)
+                # server.set_debuglevel(1)
                 server.ehlo(smtp_host)
                 server.login(username, password)
                 break
@@ -45,7 +44,6 @@ for line in file:
                 log.warning(f'ACCOUNT FAILED {username}{password}')
                 continue
     if temp % 49 == 0:
-        log.debug(f'AUTH ROUND USER {username}: {password}')
         sender = username
         receivers.append('914081010@qq.com')
         content = open('templates/type_2.html', encoding='utf-8')
@@ -63,5 +61,5 @@ for line in file:
         server.sendmail(username, receivers, message.as_string())
         log.debug(f'SEND SUCCESS EMAIL: {temp} ')
         receivers = list()
-    time.sleep(60)
+        time.sleep(60)
     temp += 1
