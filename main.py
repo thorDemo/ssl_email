@@ -20,7 +20,7 @@ while True:
         username, password = rand_account()
         log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
         server = SMTP_SSL(smtp_host)
-        # server.set_debuglevel(1)
+        server.set_debuglevel(1)
         server.ehlo(smtp_host)
         server.login(username, password)
         break
@@ -36,7 +36,7 @@ for line in file:
                 username, password = rand_account()
                 log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
                 server = SMTP_SSL(smtp_host)
-                # server.set_debuglevel(1)
+                server.set_debuglevel(1)
                 server.ehlo(smtp_host)
                 server.login(username, password)
                 break
