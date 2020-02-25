@@ -63,4 +63,5 @@ for line in file:
                 break
             except SMTPAuthenticationError:
                 continue
+    time.sleep(60)
     temp += 1
