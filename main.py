@@ -29,7 +29,7 @@ while True:
         continue
 for line in file:
     receivers.append(line.strip())
-    if temp % 980 == 0:
+    if temp % 50 == 0:
         while True:
             try:
                 smtp_host = 'smtp.global-mail.cn'
@@ -43,9 +43,9 @@ for line in file:
             except SMTPAuthenticationError:
                 log.warning(f'ACCOUNT FAILED {username}{password}')
                 continue
-    if temp % 49 == 0:
-        sender = username
         receivers.append('914081010@qq.com')
+    if temp % 3 == 0:
+        sender = username
         content = open('templates/type_2.html', encoding='utf-8')
         message = MIMEText(content.read(), _subtype='html', _charset='utf-8')
         content.close()
