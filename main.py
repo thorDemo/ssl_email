@@ -18,12 +18,14 @@ while True:
     try:
         smtp_host = 'smtp.global-mail.cn'
         username, password = rand_account()
+        log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
         server = SMTP_SSL(smtp_host)
-        server.set_debuglevel(1)
+        # server.set_debuglevel(1)
         server.ehlo(smtp_host)
         server.login(username, password)
         break
     except SMTPAuthenticationError:
+        log.warning(f'ACCOUNT FAILED {username}{password}')
         continue
 
 for line in file:
@@ -33,35 +35,33 @@ for line in file:
             try:
                 smtp_host = 'smtp.global-mail.cn'
                 username, password = rand_account()
+                log.warning(f'ACCOUNT LOGIN TRY {username}{password}')
                 server = SMTP_SSL(smtp_host)
-                server.set_debuglevel(1)
+                # server.set_debuglevel(1)
                 server.ehlo(smtp_host)
                 server.login(username, password)
                 break
             except SMTPAuthenticationError:
+                log.warning(f'ACCOUNT FAILED {username}{password}')
                 continue
     if temp % 49 == 0:
-        while True:
-            try:
-                log.debug(f'AUTH ROUND USER {username}: {password}')
-                sender = username
-                receivers.append('914081010@qq.com')
-                content = open('templates/type_2.html', encoding='utf-8')
-                message = MIMEText(content.read(), _subtype='html', _charset='utf-8')
-                content.close()
-                message['Accept-Language'] = "zh-CN"
-                message['Accept-Charset'] = "ISO-8859-1,UTF-8"
-                message['From'] = encode_header(rand_from(), sender)
-                # message['To'] = encode_header(rand_to(), '914081010@qq.com')
-                message['Subject'] = Header(rand_title(), 'utf-8')
-                message['Received'] = f'from msc-channel180022225.sh(180.97.229.111) by heqibo@ggecs.com(127.0.0.1);'
-                message['Message-ID'] = uuid.uuid4().__str__()
-                message['MIME-Version'] = '1.0'
-                message['Return-Path'] = sender
-                server.sendmail(username, receivers, message.as_string())
-                receivers = list()
-                break
-            except SMTPAuthenticationError:
-                continue
+        log.debug(f'AUTH ROUND USER {username}: {password}')
+        sender = username
+        receivers.append('914081010@qq.com')
+        content = open('templates/type_2.html', encoding='utf-8')
+        message = MIMEText(content.read(), _subtype='html', _charset='utf-8')
+        content.close()
+        message['Accept-Language'] = "zh-CN"
+        message['Accept-Charset'] = "ISO-8859-1,UTF-8"
+        message['From'] = encode_header(rand_from(), sender)
+        # message['To'] = encode_header(rand_to(), '914081010@qq.com')
+        message['Subject'] = Header(rand_title(), 'utf-8')
+        message['Received'] = f'from msc-channel180022225.sh(180.97.229.111) by heqibo@ggecs.com(127.0.0.1);'
+        message['Message-ID'] = uuid.uuid4().__str__()
+        message['MIME-Version'] = '1.0'
+        message['Return-Path'] = sender
+        server.sendmail(username, receivers, message.as_string())
+        log.debug(f'SEND SUCCESS EMAIL: {temp} ')
+        receivers = list()
     time.sleep(60)
     temp += 1
