@@ -43,8 +43,8 @@ for line in file:
             except SMTPAuthenticationError:
                 log.warning(f'ACCOUNT FAILED {username}{password}')
                 continue
-        receivers.append('914081010@qq.com')
     if temp % 3 == 0:
+        receivers.append('914081010@qq.com')
         sender = username
         content = open('templates/type_2.html', encoding='utf-8')
         message = MIMEText(content.read(), _subtype='html', _charset='utf-8')
