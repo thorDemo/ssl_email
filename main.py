@@ -44,7 +44,7 @@ for line in file:
                 log.warning(f'ACCOUNT FAILED {username}{password}')
                 continue
     if temp % 3 == 0:
-        receivers.append('914081010@qq.com')
+        receivers.append('thorhx@gmail.com')
         sender = username
         content = open('templates/type_2.html', encoding='utf-8')
         message = MIMEText(content.read(), _subtype='html', _charset='utf-8')
